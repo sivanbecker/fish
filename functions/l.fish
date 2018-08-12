@@ -1,3 +1,4 @@
-function l -w ls
-    ls --group-directories-first -lFhX $argv
+# Defined in - @ line 0
+function l --description 'alias l=ls -lta'
+	ls -lta $argv;
 end
