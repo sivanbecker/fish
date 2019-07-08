@@ -14,10 +14,31 @@ function fish_prompt
                 set cli (string join ":" $cli (set_color -o yellow)"LOCAL" $_DHCPAWN_PORT)
             end
         else
-            set cli (string join ":" $cli (set_color -o yellow)"PROD" $_DHCPAWN_PORT)
+            if test "$_DHCPAWN_CLI_PROD_SITE" = "telad"
+                set cli (string join ":" $cli (set_color -o yellow)"TELAD" $_DHCPAWN_PORT)
+            else
+                set cli (string join ":" $cli (set_color -o yellow)"INFI1" $_DHCPAWN_PORT)
+            end
         end
 
     end
+
+    if set -q bro_cli_site
+        set cli (set_color -o yellow)"BRO-CLI"
+        if test "$bro_cli_site" = "gdc"
+            set cli (string join ":" $cli (set_color -o yellow)"GDC")
+        else if test "$bro_cli_site" = "infi1"
+            set cli (string join ":" $cli (set_color -o yellow)"INFI1")
+        else if test "$bro_cli_site" = "stage"
+            set cli (string join ":" $cli (set_color -o yellow)"STAGE")
+        else if test "$bro_cli_site" = "localhost"
+            set cli (string join ":" $cli (set_color -o yellow)"LOCALHOST")
+        end
+    end
+
+
+
+
 
     if not set -q $SSH_TTY
         echo -n (set_color magenta)$USER@(prompt_hostname)
